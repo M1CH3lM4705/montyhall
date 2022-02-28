@@ -20,6 +20,9 @@
               <door-mont :hasGift="i === selectedPort" :number="i" />
           </div>
      </div>
+     <div class="footer">
+         <span>Desenvolvido por:</span> <strong>Michel Matos</strong>
+     </div>
   </div>
 </template>
 
@@ -55,6 +58,8 @@ export default {
 <style>
 *{
     box-sizing: border-box;
+    padding:0;
+    margin:0;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -66,7 +71,10 @@ body{
 #app{
     display: flex;
     flex-direction: column;
-    align-items: center;;
+    align-items: center;
+    min-height: 100%;
+    margin-top: 3rem;
+    position: relative;
 }
 
 #app h1{
@@ -74,6 +82,7 @@ body{
     background-color:#0004;
     padding: 1.25rem;
     margin-bottom: 3.75rem;
+    
 }
 
 .form{
@@ -99,5 +108,8 @@ body{
     display:flex;
     justify-content: space-around;
     flex-wrap:wrap;
+}
+.footer{
+    align-content: flex-end;
 }
 </style>
