@@ -3,16 +3,22 @@
       <h1>Problema de Monty Hall</h1>
       <div class="form">
           <div v-if="!started">
-              <label for="portsAmount">Quantas portas?</label>
-              <input type="text" id="portsAmount" size="3"
-                v-model.number="portsAmount"/>
+              <h2>
+                  <p>O jogo consiste em, encontrar o presente que 
+                  está escondindo em uma porta aleatória, e abrir
+                  as demais. Caso o presente abra em uma porta na qual 
+                  não foi a escolhida, você PERDE!.</p>
+              </h2>
+              <div>
+                  <label for="portsAmount">Quantas portas?</label>
+                  <input type="text" id="portsAmount" size="3"
+                v-model.number="portsAmount" autofocus/>
+              </div>
           </div>
-          <div v-if="started">
-              <label for="selectedPort">Qual a porta é a premiada?</label>
-              <!-- <input type="text" id="selectedPort" size="3"
-                v-model.number="selectedPort"> -->
+          <div v-if="started" style="text-align:center;">
+              <label for="selectedPort" style="font-size:1.9rem;">Qual a porta é a premiada?</label>
           </div>
-          <button v-if="!started" @click="teste">Iniciar</button>
+          <button v-if="!started" @click="sortPort">Iniciar</button>
           <button v-if="started" @click="started= false">Reiniciar</button>
       </div>
       <div class="doors" v-if="started">
@@ -39,7 +45,7 @@ export default {
         }
     },
     methods:{
-        teste(){
+        sortPort(){
             this.getRandomGiftPort()
             this.started = true
         },
@@ -85,6 +91,21 @@ body{
     
 }
 
+#app h2{
+    font-size: 1.5rem;
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+    text-align: justify;
+}
+
+#app .form div{
+    width:430px;
+}
+
+#app h2 ~ div{
+    margin-top: 20px;
+}
+
 .form{
     display:flex;
     flex-direction: column;
@@ -99,6 +120,7 @@ body{
 }
 .form input{
     padding-left: 10px;
+    margin-left:60px;
 }
 .form > div{
     margin-bottom:30px;
@@ -110,6 +132,7 @@ body{
     flex-wrap:wrap;
 }
 .footer{
-    align-content: flex-end;
+    position:fixed;
+    bottom:0;
 }
 </style>
