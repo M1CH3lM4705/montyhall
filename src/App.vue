@@ -23,7 +23,7 @@
       </div>
       <div class="doors" v-if="started">
           <div v-for="i in portsAmount" :key="i">
-              <door-mont :hasGift="i === selectedPort" :number="i" />
+              <door-mont :hasGift="i === selectedPort" :number="i" @show-message="clickDiv"/>
           </div>
      </div>
      <div class="footer">
@@ -41,7 +41,8 @@ export default {
         return{
             started: false,
             portsAmount: 3,
-            selectedPort:null
+            selectedPort:null,
+            port:null
         }
     },
     methods:{
@@ -51,6 +52,12 @@ export default {
         },
         getRandomGiftPort(){
             this.selectedPort = Math.floor(Math.random() * this.portsAmount + 1)
+        },
+        clickDiv(event){
+            console.log(event)
+            // const porta = event.target.children[0].innerText
+            // console.log(event.target, porta)
+            //event.target.firstChild.children[0].removeClass('.selected')
         }
     },
     metaInfo:{
