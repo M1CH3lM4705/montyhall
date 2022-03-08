@@ -5,10 +5,10 @@
           <monster-door v-if="open && !hasGift" />
       </div>
       <div class="door" :class="{open}"
-        @click="actionOpenInDoor($event)">
+        @click="selected = !selected">
           <div class="number" :class="{ selected }">{{number}}</div>
           <div class="knob" title="Abrir a porta" :class="{ selected }"
-            @click.stop="open = true"></div>
+            @click.stop="openDoor($event)"></div>
       </div>
   </div>
 </template>
@@ -26,40 +26,17 @@ export default {
     data:function(){
         return{
             open:false,
-            selected:false,
-            newSelected:null,
-            portNumber:null
+            selected:false
         }
     },
     methods:{
-        actionOpenInDoor(event){
+        openDoor(){
             const action = {}
-            if(!this.selected){
-                this.selected = true
-                this.newSelected = this.selected
-                this.portNumber = event.target.innerText
-                action.port = this.portNumber
-                action.selected = this.newSelected
-            }
-            else{
-                this.selected = !this.selected
-                this.portNumber = null
-                action.port = this.portNumber
-                action.selected = this.selected
-            }
-            action.open = this.open
-            action.messages = this.showMessage()
-            this.$emit('show-message', action)
-        },
-        showMessage(){
-            const messages = {}
-            if(this.hasGift)
-                messages.gift = 'presente encotrado'
-            else
-                messages.gift = 'você encotrou o monstro'
-            return{
-                messages
-            }
+            this.open = !this.open;
+            action.selected = this.selected
+            action.monsterOrGift = this.hasGift
+            this.$emit('open-door', action)
+            
         }
     }
 }

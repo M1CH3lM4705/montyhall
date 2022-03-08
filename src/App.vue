@@ -6,7 +6,7 @@
               <h2>
                   <p>O jogo consiste em, encontrar o presente que 
                   está escondindo em uma porta aleatória, e abrir
-                  as demais. Caso o presente abra em uma porta na qual 
+                  as demais. Caso o presente apareça em uma porta na qual 
                   não foi a escolhida, você PERDE!.</p>
               </h2>
               <div>
@@ -23,7 +23,7 @@
       </div>
       <div class="doors" v-if="started">
           <div v-for="i in portsAmount" :key="i">
-              <door-mont :hasGift="i === selectedPort" :number="i" @show-message="clickDiv"/>
+              <door-mont :hasGift="i === selectedPort" :number="i" @open-door="clickDiv"/>
           </div>
      </div>
      <div class="footer">
@@ -54,10 +54,23 @@ export default {
             this.selectedPort = Math.floor(Math.random() * this.portsAmount + 1)
         },
         clickDiv(event){
-            console.log(event)
-            // const porta = event.target.children[0].innerText
-            // console.log(event.target, porta)
-            //event.target.firstChild.children[0].removeClass('.selected')
+            if(event.selected && event.monsterOrGift){
+                console.log('acho o presente')
+                this.reload()
+            }
+            else if((event.selected && !event.monsterOrGift) ||
+                    (!event.selected && event.monsterOrGift)){
+                console.log("Você perdeu!")
+                this.reload()
+            }
+            else{
+                console.log('deseja trocar de porta ou continuar na selecionada')
+            }
+        },
+        reload(){
+            setTimeout(() => {
+                    this.started = false
+            },4000)
         }
     },
     metaInfo:{
@@ -140,6 +153,13 @@ body{
 }
 .footer{
     position:fixed;
-    bottom:0;
+    bottom:2rem;
+}
+
+.footer span{
+    text-align: center;
+    margin-top:30px;
+    font-size:12px;
+    color:#999;
 }
 </style>
