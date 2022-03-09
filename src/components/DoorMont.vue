@@ -18,7 +18,7 @@ import GiftMont from './GiftMont'
 import MonsterDoor from './MonsterDoor.vue'
 
 export default {
-    components:{ GiftMont, MonsterDoor},
+    components:{ GiftMont, MonsterDoor },
     props:{
         number:{},
         hasGift:{type:Boolean},

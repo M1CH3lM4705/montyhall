@@ -29,20 +29,25 @@
      <div class="footer">
          <span>Desenvolvido por:</span> <strong>Michel Matos</strong>
      </div>
+     <transition>
+      <balon-message :message="textBallon" v-if="show"/>
+     </transition>
   </div>
 </template>
 
 <script>
 import DoorMont from './components/DoorMont.vue';
+import BalonMessage from './components/Balon-Message.vue'
 export default {
     name: 'App',
-    components: { DoorMont },
+    components: { DoorMont, BalonMessage },
     data:function(){
         return{
             started: false,
             portsAmount: 3,
             selectedPort:null,
-            port:null
+            textBallon:null,
+            show:false
         }
     },
     methods:{
@@ -55,22 +60,31 @@ export default {
         },
         clickDiv(event){
             if(event.selected && event.monsterOrGift){
-                console.log('acho o presente')
+                this.clearBalon()
+                this.textBallon = 'Parabéns, você achou o PRESENTE!';
+                this.show = !this.show;
                 this.reload()
             }
             else if((event.selected && !event.monsterOrGift) ||
                     (!event.selected && event.monsterOrGift)){
-                console.log("Você perdeu!")
+                this.clearBalon()
+                this.textBallon = "Você perdeu!";
+                this.show = !this.show;
                 this.reload()
             }
             else{
-                console.log('deseja trocar de porta ou continuar na selecionada')
+                this.textBallon = 'deseja trocar de porta ou continuar na selecionada';
+                this.show = !this.show;
             }
         },
         reload(){
             setTimeout(() => {
                     this.started = false
+                    this.show = false
             },4000)
+        },
+        clearBalon(){
+          this.textBallon = null;
         }
     },
     metaInfo:{
