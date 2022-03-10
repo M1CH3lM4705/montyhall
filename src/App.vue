@@ -26,9 +26,7 @@
               <door-mont :hasGift="i === selectedPort" :number="i" @open-door="clickDiv"/>
           </div>
      </div>
-     <div class="footer">
-         <span>Desenvolvido por:</span> <strong>Michel Matos</strong>
-     </div>
+     
      <transition>
       <balon-message :message="textBallon" v-if="show"/>
      </transition>
@@ -59,22 +57,21 @@ export default {
             this.selectedPort = Math.floor(Math.random() * this.portsAmount + 1)
         },
         clickDiv(event){
+            const messages ={
+                'win':'Parabéns, você achou o PRESENTE!',
+                'continue':'deseja trocar de porta ou continuar na selecionada',
+                'defeat':'Perdeu! Infelizmente você fez uma escolha errada... :('
+            }
+            
             if(event.selected && event.monsterOrGift){
-                this.clearBalon()
-                this.textBallon = 'Parabéns, você achou o PRESENTE!';
-                this.show = !this.show;
-                this.reload()
+                this.showMessage(messages['win'], true)
             }
             else if((event.selected && !event.monsterOrGift) ||
                     (!event.selected && event.monsterOrGift)){
-                this.clearBalon()
-                this.textBallon = "Você perdeu!";
-                this.show = !this.show;
-                this.reload()
+                this.showMessage(messages['defeat'], true)
             }
             else{
-                this.textBallon = 'deseja trocar de porta ou continuar na selecionada';
-                this.show = !this.show;
+                this.showMessage(messages['continue'])
             }
         },
         reload(){
@@ -85,6 +82,15 @@ export default {
         },
         clearBalon(){
           this.textBallon = null;
+          this.show = false;
+        },
+        showMessage(text, reload = false){
+            this.clearBalon()
+            this.textBallon = text,'Parabéns, você achou o PRESENTE!';
+            this.show = !this.show;
+            if(reload){
+                this.reload()
+            }
         }
     },
     metaInfo:{
@@ -103,9 +109,17 @@ export default {
     font-family: 'Montserrat', sans-serif;
 }
 
+html{
+    height: 100%;
+    min-height: 100%;
+}
+
 body{
     color:#fff;
     background: linear-gradient(to right, rgb(21, 153, 87), rgb(21,87,153));
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
 }
 
 #app{
@@ -165,15 +179,37 @@ body{
     justify-content: space-around;
     flex-wrap:wrap;
 }
-.footer{
-    position:fixed;
-    bottom:2rem;
+footer{
+    margin-top:auto;
+    margin-bottom: 1rem;
+    align-self: center;
 }
 
-.footer span{
+footer span{
     text-align: center;
     margin-top:30px;
     font-size:12px;
     color:#999;
+}
+
+@media(max-width: 430px){
+    #app h1{
+        font-size: 1.75rem;
+    }
+    #app .form div{
+     width:300px;
+    }
+
+    #app h2 {
+        font-size: 0.95rem;
+    }
+
+    .form input{
+        width:100%;
+        margin-left:0;
+    }
+    .form button{
+        width:100%;
+    }
 }
 </style>
